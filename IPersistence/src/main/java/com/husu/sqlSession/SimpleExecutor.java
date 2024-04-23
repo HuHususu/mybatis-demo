@@ -7,13 +7,12 @@ import com.husu.utils.GenericTokenParser;
 import com.husu.utils.ParameterMapping;
 import com.husu.utils.ParameterMappingTokenHandler;
 
+import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +24,9 @@ public class SimpleExecutor implements Executor {
     @Override
     public <E> List<E> query(Configuration configuration, MappedStatement mappedStatement, Object... params) throws Exception {
         // 1.注册驱动，获取连接
-        Connection connection = configuration.getDataSource().getConnection();
-        String sql = mappedStatement.getSql();
+        Connection connection = getConnection(configuration);
 
-        BoundSql boundSql = getBoundSql(sql);
+        BoundSql boundSql = getBoundSql(mappedStatement);
 
         // 3.获取预处理对象
         PreparedStatement preparedStatement = connection.prepareStatement(boundSql.getSqlText());
@@ -56,6 +54,18 @@ public class SimpleExecutor implements Executor {
 
         ArrayList<Object> objects = new ArrayList<>();
         // 6.封装返回结果集
+        buildResultSet(resultSet, resultTypeClass, objects);
+
+        return (List<E>) objects;
+    }
+
+    private static void buildResultSet(ResultSet resultSet
+            , Class<?> resultTypeClass
+            , ArrayList<Object> objects) throws SQLException
+            , InstantiationException
+            , IllegalAccessException
+            , IntrospectionException
+            , InvocationTargetException {
         while (resultSet.next()) {
             Object o = resultTypeClass.newInstance();
             ResultSetMetaData metaData = resultSet.getMetaData();
@@ -71,8 +81,17 @@ public class SimpleExecutor implements Executor {
             }
             objects.add(o);
         }
+    }
 
-        return (List<E>) objects;
+    private BoundSql getBoundSql(MappedStatement mappedStatement) {
+        String sql = mappedStatement.getSql();
+        BoundSql boundSql = getBoundSql(sql);
+        return boundSql;
+    }
+
+    private static Connection getConnection(Configuration configuration) throws SQLException {
+        Connection connection = configuration.getDataSource().getConnection();
+        return connection;
     }
 
     private Class<?> getClassType(String parameterType) throws ClassNotFoundException {
