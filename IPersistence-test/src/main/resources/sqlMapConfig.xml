@@ -3,7 +3,7 @@
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
         <property name="jdbcUrl" value="jdbc:mysql:///husu_mybatis"></property>
         <property name="username" value="root"></property>
-        <property name="password" value="you password"></property>
+        <property name="password" value="root"></property>
     </dataSource>
 
     <!-- 配置映射文件 -->
