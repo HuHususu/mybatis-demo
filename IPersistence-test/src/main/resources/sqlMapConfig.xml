@@ -1,10 +1,10 @@
 <configuration>
-    <dataSources>
-        <property name="driver" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql:///husu_mybatise"/>
-        <property name="username" value="root"/>
-        <property name="password" value="hxy.2020"/>
-    </dataSources>
+    <dataSource>
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql:///husu_mybatis"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="hxy.2020"></property>
+    </dataSource>
 
     <!-- 配置映射文件 -->
     <mapper resource="userMapper.xml"/>

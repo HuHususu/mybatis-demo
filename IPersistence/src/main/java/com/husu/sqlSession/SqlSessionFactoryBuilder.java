@@ -16,6 +16,10 @@ public class SqlSessionFactoryBuilder {
         // 1. 使用dom4j 解析出来的内容封装到Configuration中
         XMLConfigBuilder xmlConfigBuilder = new XMLConfigBuilder();
         Configuration configuration = xmlConfigBuilder.parseConfig(in);
-        // 2. 创建SqlSessionFactory
+
+        // 2. 创建SqlSessionFactory对象：工厂类,生产sqlSession 会话对象
+        DefaultSqlSessionFactory defaultSqlSessionFactory = new DefaultSqlSessionFactory(configuration);
+
+        return defaultSqlSessionFactory;
     }
 }

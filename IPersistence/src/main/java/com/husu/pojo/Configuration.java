@@ -9,6 +9,12 @@ import java.util.Map;
  * @date 4/19/2024 4:39 PM
  */
 public class Configuration {
+
+    private DataSource dataSource;
+
+
+    Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
+
     public DataSource getDataSource() {
         return dataSource;
     }
@@ -17,10 +23,17 @@ public class Configuration {
         this.dataSource = dataSource;
     }
 
-    private DataSource dataSource;
+
 
     /**
      * key:statementId value:封装好的 MappedStatement 对象
      */
-    Map<String, MappedStatement> mappedStatementMap = new HashMap<>();
+
+    public Map<String, MappedStatement> getMappedStatementMap() {
+        return mappedStatementMap;
+    }
+
+    public void setMappedStatementMap(Map<String, MappedStatement> mappedStatementMap) {
+        this.mappedStatementMap = mappedStatementMap;
+    }
 }

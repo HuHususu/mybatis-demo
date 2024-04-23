@@ -5,4 +5,5 @@ package com.husu.sqlSession;
  * @date 4/19/2024 4:47 PM
  */
 public interface SqlSessionFactory {
+    SqlSession openSession();
 }
