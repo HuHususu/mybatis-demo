@@ -8,6 +8,6 @@
 
     <!-- 配置映射文件 -->
     <mapper resource="userMapper.xml"/>
-    <mapper resource="product.xml"/>
+<!--    <mapper resource="product.xml"/>-->
 
 </configuration>

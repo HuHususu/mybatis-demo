@@ -12,4 +12,7 @@ public interface SqlSession {
 
     // 根据条件查询单个
     <T> T selectOne(String statementId, Object... params) throws Exception;
+
+    // 为Dao添加代理对象
+    <T> T getMapper(Class<?> mapperClass);
 }

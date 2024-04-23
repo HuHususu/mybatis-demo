@@ -1,12 +1,12 @@
-<mapper namespace="user">
+<mapper namespace="com.husu.dao.IUserDao">
 
     <!-- sql的唯一表示：namespace.id来组成：statementId -->
-    <select id="selectList" resultType="com.husu.pojo.User">
+    <select id="findAll" resultType="com.husu.pojo.User">
         select * from user
     </select>
 
     <!-- 多参数 -->
-    <select id="selectOne" resultType="com.husu.pojo.User" parameterType="com.husu.pojo.User">
+    <select id="findByCondition" resultType="com.husu.pojo.User" parameterType="com.husu.pojo.User">
         select * from user where id = #{id} and username = #{username}
     </select>
 

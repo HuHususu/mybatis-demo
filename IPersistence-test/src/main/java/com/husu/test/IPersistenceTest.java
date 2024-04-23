@@ -1,5 +1,6 @@
 package com.husu.test;
 
+import com.husu.dao.IUserDao;
 import com.husu.io.Resources;
 import com.husu.pojo.User;
 import com.husu.sqlSession.SqlSession;
@@ -8,6 +9,7 @@ import com.husu.sqlSession.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author huyong(husu)
@@ -21,11 +23,10 @@ public class IPersistenceTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
 
-        // 调用
-        User user = new User();
-        user.setId(1);
-        user.setUsername("husu");
-        User user2 = sqlSession.selectOne("user.selectOne", user);
-        System.out.println(user2);
+        IUserDao userDao = sqlSession.getMapper(IUserDao.class);
+        List<User> all = userDao.findAll();
+        for (User user : all) {
+            System.out.println(user);
+        }
     }
 }
