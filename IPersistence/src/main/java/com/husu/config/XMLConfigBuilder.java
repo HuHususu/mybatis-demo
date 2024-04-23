@@ -18,7 +18,7 @@ import java.util.Properties;
  * @date 4/19/2024 4:48 PM
  */
 public class XMLConfigBuilder {
-    private Configuration configuration;
+    private final Configuration configuration;
 
     public XMLConfigBuilder() {
         this.configuration = new Configuration();
@@ -27,8 +27,8 @@ public class XMLConfigBuilder {
     /**
      * 该方法就是使用dom4j将配置文件进行解析，并封装成Configuration对象
      *
-     * @param inputStream
-     * @return
+     * @param inputStream 输入流
+     * @return 解析出来的配置
      */
     public Configuration parseConfig(InputStream inputStream) throws DocumentException, PropertyVetoException {
 
@@ -41,6 +41,7 @@ public class XMLConfigBuilder {
             String value = element.attributeValue("value");
             properties.setProperty(name, value);
         }
+
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         comboPooledDataSource.setDriverClass(properties.getProperty("driverClass"));
         comboPooledDataSource.setJdbcUrl(properties.getProperty("jdbcUrl"));

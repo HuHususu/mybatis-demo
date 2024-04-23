@@ -1,9 +1,10 @@
 package com.husu.sqlSession;
 
 import com.husu.pojo.Configuration;
-import com.husu.pojo.MappedStatement;
 
-import java.lang.reflect.*;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @date 4/22/2024 2:51 PM
  */
 public class DefaultSqlSession implements SqlSession {
-    private Configuration configuration;
+    private final Configuration configuration;
 
     public DefaultSqlSession(Configuration configuration) {
         this.configuration = configuration;
@@ -39,7 +40,10 @@ public class DefaultSqlSession implements SqlSession {
     @Override
     public <T> T getMapper(Class<?> mapperClass) {
         // 使用JDK 动态代理为Dao 接口生成代理对象
-        Object proxyInstance = Proxy.newProxyInstance(DefaultSqlSession.class.getClassLoader(), new Class[]{mapperClass}, (proxy, method, args) -> {
+        Object proxyInstance = Proxy.newProxyInstance(
+                DefaultSqlSession.class.getClassLoader()
+                , new Class[]{mapperClass}, (proxy, method, args)
+                -> {
             // 底层都还是去指定JDBC代码，根据不同情况调用不同的方法
             // 准备参数1：statementId :sql语句的唯一标识， namespace.id = 接口全限定名.方法名
             String methodName = method.getName();
